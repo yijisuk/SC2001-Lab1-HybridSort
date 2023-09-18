@@ -21,10 +21,10 @@ class DataGenerator:
         self.data.append(append_row)
 
 
-    def generate(self, start: int, end: int, 
+    def generate(self, start: int, end: int, step: int,
                  minimum: int, maximum: int) -> pd.DataFrame:
 
-        for length in range(start, end):
+        for length in range(start, end, step):
             self.base_generation(
                 length=length,
                 minimum=minimum,
