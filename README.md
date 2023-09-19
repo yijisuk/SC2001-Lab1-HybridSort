@@ -8,6 +8,8 @@
 
 ```time_measure.py```: Measures the time taken for sorting the generated input dataset with varying lengths using insertion sort and merge sort. Later the retrieved values will be used to find S value of the hybrid sort algorithm.
 
+```./sort_functions/sort_functions.py```: Connects the C shared object file with Python, making the C sorting functions executable through Python.
+
 ```input_data_vis.ipynb```: Jupyter Notebook file for visualizing the generated input data
 
 ## Folder Descriptions
