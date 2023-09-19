@@ -40,7 +40,7 @@ class MainGenerator(DataGenerator):
         for i in tqdm(range(3, 7), desc=f"Processing batch {batch}"):
 
             data = self.generate(
-                start=10**i, end=10**(i+1), step=10**3,
+                start=10**i, end=10**(i+1), step=10**i,
                 minimum=minimum, maximum=maximum
             )
 
