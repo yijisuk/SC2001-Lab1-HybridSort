@@ -20,24 +20,28 @@ class TimeMeasurer:
     def time_measure(self):
 
         with ThreadPoolExecutor() as executor:
-            for i in tqdm(range(0, 3)):
+
+            for i in tqdm(range(0, self.C.batch_count)):
 
                 print(f"Analyzing Time Complexity for Batch {i}:")
-                batch_data_path = self.C.batch_data_path(i)
 
                 # Create a list of file paths for the current batch
-                files = [
-                    os.path.join(batch_data_path, self.C.dataOne),
-                    os.path.join(batch_data_path, self.C.dataTwo),
-                    # os.path.join(batch_data_path, self.C.dataThree),
-                    # os.path.join(batch_data_path, self.C.dataFour)
-                ]
+                files = {
+                    "random": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="random") 
+                               for j in range(self.C.min_id, self.C.max_id)],
 
-                # Use the executor to apply the base_measure method concurrently on all files
-                results = list(executor.map(self.base_measure, files))
+                    "ascending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="ascending") 
+                                  for j in range(self.C.min_id, self.C.max_id)],
 
-                # Save each processed dataframe back to its file
-                for df, file_path in zip(results, files):
+                    "descending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="descending") 
+                                   for j in range(self.C.min_id, self.C.max_id)]
+                }
+
+                # Create a list of all tasks
+                tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
+
+                # Use the executor to apply the base_measure method concurrently on all tasks
+                for (file_path, key), df in zip(tasks, executor.map(lambda task: self.base_measure(task[0]), tasks)):
                     df.to_csv(file_path, index=False)
 
 
@@ -46,10 +50,10 @@ class TimeMeasurer:
         data = pd.read_csv(data_path)
 
         results = data.apply(self.process_row, axis=1, result_type='expand')
-        data[["insertion_sorted_array", "merge_sorted_array", "insertion_sort_time", "merge_sort_time"]] = results
+        data[["insertion_sorted_array", "merge_sorted_array",
+              "insertion_sort_time", "merge_sort_time"]] = results
 
         return data
-    
 
     def process_row(self, row) -> Tuple[list, list, float, float]:
 

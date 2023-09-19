@@ -3,12 +3,15 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
 from .data_generator import DataGenerator
+from utils.constants import Constants
 
 
 class MainGenerator(DataGenerator):
 
     def __init__(self):
+
         super().__init__()
+        self.C = Constants()
 
 
     def batch_generation(self, batch_count: int,
@@ -30,19 +33,28 @@ class MainGenerator(DataGenerator):
 
 
     def generate_input_data(self, batch: int, 
-                            minimum: int, maximum: int) -> None:
-        
-        base_path = os.path.join("data_storage", "input_data", f"batch_{batch}")
+                        minimum: int, maximum: int) -> None:
+    
+        base_path = self.C.ID_batch_data_path(batch)
 
         if not os.path.exists(base_path):
             os.makedirs(base_path)
 
-        for i in tqdm(range(3, 7), desc=f"Processing batch {batch}"):
+        def process_type(i, type):
 
             data = self.generate(
+                type=type,
                 start=10**i, end=10**(i+1), step=10**i,
                 minimum=minimum, maximum=maximum
             )
 
-            file_dir = os.path.join(base_path, f"10**{i}-10**{i+1}.csv")
+            file_dir = self.C.ID_array_data_path(batch_id=batch, data_id=i-2, order_type=type)
             data.to_csv(file_dir, index=False)
+
+
+        with ThreadPoolExecutor() as executor:
+
+            for i in tqdm(range(3, 7), desc=f"Processing batch {batch}"):
+
+                for type in ["random", "ascending", "descending"]:
+                    executor.submit(process_type, i, type)
