@@ -29,22 +29,18 @@ class SortFunctions:
         
         # Define the sort function inputs and outputs
         self.insertion_sort_clibary.insertionSort.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
-        self.insertion_sort_clibary.insertionSort.restype = None
+        self.insertion_sort_clibary.insertionSort.restype = ctypes.c_int
 
         self.merge_sort_clibrary.mergeSort.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
-        self.merge_sort_clibrary.mergeSort.restype = None
+        self.merge_sort_clibrary.mergeSort.restype = ctypes.c_int
 
         self.hybrid_sort_clibrary.sort.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int, ctypes.c_int)
-        self.hybrid_sort_clibrary.sort.restype = None
+        self.hybrid_sort_clibrary.sort.restype = ctypes.c_int
 
 
-    def sort(self, array: List[int], option: str, return_runtime: bool) -> tuple:
+    def sort(self, array: List[int], option: str) -> list:
 
-        start_time = None
-        elapsed_time = None
-
-        if return_runtime:
-            start_time = time.time()
+        start_time = time.time()
 
         arr = (ctypes.c_int * len(array))(*array)
         size = len(array)
@@ -52,44 +48,32 @@ class SortFunctions:
 
         if option == "insertion":
 
-            self.insertion_sort_clibary.insertionSort(arr, size)
+            key_comparisons = self.insertion_sort_clibary.insertionSort(arr, size)
             sorted_data = list(arr)
 
         elif option == "merge":
 
-            self.merge_sort_clibrary.mergeSort(arr, size)
+            key_comparisons = self.merge_sort_clibrary.mergeSort(arr, size)
             sorted_data = list(arr)
 
 
-        if return_runtime:
-            end_time = time.time()
-            elapsed_time = end_time - start_time
+        end_time = time.time()
+        elapsed_time = end_time - start_time
 
-            return (sorted_data, elapsed_time)
-        
-        elif return_runtime == False:
-            return sorted_data
+        return [sorted_data, key_comparisons, elapsed_time]
 
 
-    def hybrid_sort(self, array: List[int], threshold: int, return_runtime: bool) -> Union[Tuple, List[int]]:
+    def hybrid_sort(self, array: List[int], threshold: int) -> dict:
 
-        start_time = None
-        elapsed_time = None
-
-        if return_runtime:
-            start_time = time.time()
+        start_time = time.time()
 
         arr = (ctypes.c_int * len(array))(*array)
         size = len(array)
 
-        self.hybrid_sort_clibrary.sort(arr, size, threshold)
+        key_comparisons = self.hybrid_sort_clibrary.sort(arr, size, threshold)
         sorted_data = list(arr)
 
-        if return_runtime:
-            end_time = time.time()
-            elapsed_time = end_time - start_time
+        end_time = time.time()
+        elapsed_time = end_time - start_time
 
-            return (sorted_data, elapsed_time)
-
-        elif return_runtime == False:
-            return sorted_data
+        return [sorted_data, key_comparisons, elapsed_time]
