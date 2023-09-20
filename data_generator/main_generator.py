@@ -1,5 +1,4 @@
 import os
-from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 
 from .data_generator import DataGenerator
@@ -17,28 +16,24 @@ class MainGenerator(DataGenerator):
     def batch_generation(self, batch_count: int,
                          minimum: int, maximum: int) -> None:
         
-        with ThreadPoolExecutor() as executor:
+        for i in tqdm(range(batch_count), desc="Generating batches"):
 
-            futures = [executor.submit(self.generate_input_data, batch=i, minimum=minimum, maximum=maximum)
-                       for i in range(batch_count)]
-            
-            for i, future in enumerate(tqdm(futures, desc="Generating batches", total=batch_count)):
+            try:
+                self.generate_input_data(batch=i, minimum=minimum, maximum=maximum)
+                print(f"Completed batch {i}...")
 
-                try:
-                    future.result()
-                    print(f"Completed batch {i}...")
-
-                except Exception as e:
-                    print(f"Error in batch {i}: {e}")
+            except Exception as e:
+                print(f"Error in batch {i}: {e}")
 
 
     def generate_input_data(self, batch: int, 
-                        minimum: int, maximum: int) -> None:
+                            minimum: int, maximum: int) -> None:
     
         base_path = self.C.ID_batch_data_path(batch)
 
         if not os.path.exists(base_path):
             os.makedirs(base_path)
+
 
         def process_type(i, type):
 
@@ -52,9 +47,7 @@ class MainGenerator(DataGenerator):
             data.to_csv(file_dir, index=False)
 
 
-        with ThreadPoolExecutor() as executor:
+        for i in tqdm(range(self.C.min_zero_count, self.C.max_zero_count), desc=f"Processing batch {batch}"):
 
-            for i in tqdm(range(3, 7), desc=f"Processing batch {batch}"):
-
-                for type in ["random", "ascending", "descending"]:
-                    executor.submit(process_type, i, type)
+            for type in ["random", "ascending", "descending"]:
+                process_type(i, type)

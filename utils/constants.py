@@ -4,9 +4,12 @@ import os
 class Constants:
 
     def __init__(self):
+
+        self.min_zero_count = 3
+        self.max_zero_count = 7
         
         self.min_id = 1
-        self.max_id = 5
+        self.max_id = self.max_zero_count - self.min_zero_count
         self.batch_count = 3
 
 

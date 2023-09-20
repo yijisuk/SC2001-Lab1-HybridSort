@@ -1,16 +1,19 @@
 #include <stdio.h>
 
 
-__declspec(dllexport) void insertionSort(int array[], int size);
+int insertionSort(int array[], int size);
 
 
-__declspec(dllexport) void insertionSort(int array[], int size) {
+int insertionSort(int array[], int size) {
 
     int temp;
+    int comparisons = 0;
 
     for (int i = 0; i < size; i++) {
 
         for (int j = i; j > 0; j--) {
+
+            comparisons++;
 
             if (array[j] < array[j-1]) {
 
@@ -21,4 +24,6 @@ __declspec(dllexport) void insertionSort(int array[], int size) {
             } else { break; }
         }
     }
+
+    return comparisons;
 }
