@@ -20,7 +20,7 @@ class Constants:
         zero_count = 2 + data_id
         return os.path.join(
             self.ID_batch_data_path(batch_id), 
-            f"ID{data_id}-10**{zero_count}-10**{zero_count+1}-{order_type}.csv")
+            f"{self.base_file_name(data_id, zero_count, order_type)}.csv")
 
 
     def TC_batch_data_path(self, batch: int) -> str:
@@ -33,4 +33,9 @@ class Constants:
         zero_count = 2 + data_id
         return os.path.join(
             self.TC_batch_data_path(batch_id), 
-            f"ID{data_id}-10**{zero_count}-10**{zero_count+1}-{order_type}-tc.csv")
+            f"{self.base_file_name(data_id, zero_count, order_type)}-tc.csv")
+    
+
+    def base_file_name(self, data_id: int, zero_count: int, order_type: str) -> str:
+
+        return f"ID{data_id}-10p{zero_count}-10p{zero_count+1}-{order_type}"
