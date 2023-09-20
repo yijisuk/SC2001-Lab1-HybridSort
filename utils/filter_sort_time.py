@@ -1,4 +1,5 @@
 import os
+from tqdm import tqdm
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor
 
@@ -13,13 +14,17 @@ def filter_sort_time():
     def process_file(file_path, save_path):
 
         data = pd.read_csv(file_path)
-        data = data[["length", "insertion_sort_time", "merge_sort_time"]]
+        data = data[["length", 
+                     "insertion_sort_key_comparison", "merge_sort_key_comparison",
+                     "insertion_sort_time", "merge_sort_time"]]
         data.to_csv(save_path, index=False)
 
 
     with ThreadPoolExecutor() as executor:
 
-        for i in range(0, C.batch_count):
+        for i in tqdm(range(0, C.batch_count)):
+
+            print(f"Filtering Key Comparison & Time Complexity for Batch {i}:")
 
             batch_data_path = C.TC_batch_data_path(i)
 

@@ -4,6 +4,6 @@ from utils.filter_sort_time import filter_sort_time
 
 if __name__ == "__main__":
 
-    TM = TimeMeasurer()
-    TM.time_measure()
+    # TM = TimeMeasurer()
+    # TM.time_measure()
     filter_sort_time()
