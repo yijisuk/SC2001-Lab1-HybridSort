@@ -1,10 +1,10 @@
 #include <stdio.h>
 
 
-void insertionSort(int array[], int size);
+__declspec(dllexport) void insertionSort(int array[], int size);
 
 
-void insertionSort(int array[], int size) {
+__declspec(dllexport) void insertionSort(int array[], int size) {
 
     int temp;
 

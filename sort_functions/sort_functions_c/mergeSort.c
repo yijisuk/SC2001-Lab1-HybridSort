@@ -1,11 +1,11 @@
 #include <stdio.h>
 
 
-void mergeSort(int array[], int size);
-void merge(int leftArray[], int leftSize, int rightArray[], int rightSize, int array[]);
+__declspec(dllexport) void mergeSort(int array[], int size);
+__declspec(dllexport) void merge(int leftArray[], int leftSize, int rightArray[], int rightSize, int array[]);
 
 
-void mergeSort(int array[], int size) {
+__declspec(dllexport) void mergeSort(int array[], int size) {
 
     if (size <= 1) { return; }
 
@@ -36,7 +36,7 @@ void mergeSort(int array[], int size) {
 }
 
 
-void merge(int leftArray[], int leftSize, int rightArray[], int rightSize, int array[]) {
+__declspec(dllexport) void merge(int leftArray[], int leftSize, int rightArray[], int rightSize, int array[]) {
 
     int i = 0;
     int l = 0;

@@ -19,6 +19,8 @@ class TimeMeasurer:
 
     def time_measure(self):
 
+        max_measure = self.C.max_id - 1
+
         with ThreadPoolExecutor() as executor:
 
             for i in tqdm(range(0, self.C.batch_count)):
@@ -28,13 +30,13 @@ class TimeMeasurer:
                 # Create a list of file paths for the current batch
                 files = {
                     "random": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="random") 
-                               for j in range(self.C.min_id, self.C.max_id - 1)],
+                               for j in range(self.C.min_id, max_measure)],
 
                     # "ascending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="ascending") 
-                    #               for j in range(self.C.min_id, self.C.max_id)],
+                    #               for j in range(self.C.min_id, max_measure)],
 
                     # "descending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="descending") 
-                    #                for j in range(self.C.min_id, self.C.max_id)]
+                    #                for j in range(self.C.min_id, max_measure)]
                 }
 
                 # Create a list of all tasks
