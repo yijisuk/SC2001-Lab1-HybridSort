@@ -14,12 +14,12 @@ class MainGenerator(DataGenerator):
 
 
     def batch_generation(self, batch_count: int,
-                         minimum: int, maximum: int) -> None:
+                         minimum: int, maximum: int, step: any) -> None:
         
         for i in tqdm(range(batch_count), desc="Generating batches"):
 
             try:
-                self.generate_input_data(batch=i, minimum=minimum, maximum=maximum)
+                self.generate_input_data(batch=i, minimum=minimum, maximum=maximum, step=step)
                 print(f"Completed batch {i}...")
 
             except Exception as e:
@@ -27,7 +27,7 @@ class MainGenerator(DataGenerator):
 
 
     def generate_input_data(self, batch: int, 
-                            minimum: int, maximum: int) -> None:
+                            minimum: int, maximum: int, step: any) -> None:
     
         base_path = self.C.ID_batch_data_path(batch)
 
@@ -35,11 +35,14 @@ class MainGenerator(DataGenerator):
             os.makedirs(base_path)
 
 
-        def process_type(i, type):
+        def process_type(i, type, step=None):
+
+            if step == None:
+                step = 10**i
 
             data = self.generate(
                 type=type,
-                start=10**i, end=10**(i+1), step=10**i,
+                start=10**i, end=10**(i+1), step=step,
                 minimum=minimum, maximum=maximum
             )
 
@@ -50,4 +53,4 @@ class MainGenerator(DataGenerator):
         for i in tqdm(range(self.C.min_zero_count, self.C.max_zero_count), desc=f"Processing batch {batch}"):
 
             for type in ["random", "ascending", "descending"]:
-                process_type(i, type)
+                process_type(i, type, step)
