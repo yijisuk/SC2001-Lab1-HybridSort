@@ -6,7 +6,7 @@ from utils.filter_key_data import filter_key_data
 if __name__ == "__main__":
     
     MainGenerator().batch_generation(
-        batch_count=3, minimum=1, maximum=10**6-1)
+        batch_count=3, minimum=1, maximum=10**6-1, step=10**2)
     
     TCA = TimeComplexityAnalysis()
     TCA.time_complexity_analysis()
