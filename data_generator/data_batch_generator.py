@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from utilities.constants import Constants
+from utilities.shared_constants import SharedConstants
+from utilities.data_paths import DataPaths
 
 
 class DataBatchGenerator:
@@ -10,14 +11,13 @@ class DataBatchGenerator:
     Base Generator Class for creating a single batch of data
     """
 
-    def __init__(self, start_zero_count: int, end_zero_count: int):
+    def __init__(self, SC: SharedConstants):
 
         self.data = []
 
-        self.start_zero_count = start_zero_count
-        self.end_zero_count = end_zero_count
+        self.SC = SC
+        self.DP = DataPaths()
 
-        self.C = Constants()
 
     def base_generation(self, sort_type: str, array_len: int,
                         minimum_val: int, maximum_val: int) -> None:
@@ -71,6 +71,7 @@ class DataBatchGenerator:
 
         self.data.append(append_row)
 
+
     def generate(self, sort_type: str,
                  start_len: int, end_len: int, step_size_len: int,
                  minimum_val: int, maximum_val: int) -> pd.DataFrame:
@@ -91,7 +92,7 @@ class DataBatchGenerator:
             pd.DataFrame: Dataframe holding arrays of different lengths.
         """
 
-        if end_len >= 10**self.end_zero_count:
+        if end_len >= 10**self.SC.end_zero_count:
             end_len += step_size_len
 
         # Loop through the lengths from start to end, with step size step

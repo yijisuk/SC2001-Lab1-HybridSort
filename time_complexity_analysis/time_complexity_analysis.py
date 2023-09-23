@@ -4,49 +4,44 @@ import pandas as pd
 from typing import Tuple
 
 from sort_functions.sort_functions import SortFunctions
-from utilities.constants import Constants
+from utilities.shared_constants import SharedConstants
+from utilities.data_paths import DataPaths
 
 
 class TimeComplexityAnalysis:
 
-    def __init__(self, start_id: int, end_id: int, batch_count: int):
+    def __init__(self, SC: SharedConstants):
 
-        self.start_id = start_id
-        self.end_id = end_id
-        self.batch_count = batch_count
-
+        self.SC = SC
         self.SF = SortFunctions()
-        self.C = Constants()
+        self.DP = DataPaths()
 
 
     def time_complexity_analysis(self) -> None:
 
-        for i in tqdm(range(0, self.batch_count)):
+        order_types = ["random", "ascending", "descending"]
+
+        for i in tqdm(range(0, self.SC.batch_count)):
 
             print(f"Analyzing Time Complexity for Batch {i}:")
 
             # Create a list of file paths for the current batch
             files = {
-                "random": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="random") 
-                        for j in range(self.start_id, self.end_id)],
-
-                "ascending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="ascending") 
-                            for j in range(self.start_id, self.end_id)],
-
-                "descending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="descending") 
-                            for j in range(self.start_id, self.end_id)]
+                order: self.DP.generate_paths(
+                    batch_id=i, SC=self.SC, 
+                    order_type=order, paths_option="ID"
+                ) 
+                for order in order_types
             }
 
-            print(files)
+            # Create a list of all tasks
+            tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
 
-            # # Create a list of all tasks
-            # tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
+            # Directly call the base_measure method for all tasks
+            for file_path, _ in tasks:
 
-            # # Directly call the base_measure method for all tasks
-            # for file_path, _ in tasks:
-
-            #     df = self.base_analysis(file_path)
-            #     df.to_csv(file_path, index=False)
+                df = self.base_analysis(file_path)
+                df.to_csv(file_path, index=False)
 
 
     def base_analysis(self, data_path: str) -> pd.DataFrame:
