@@ -9,38 +9,44 @@ from utilities.constants import Constants
 
 class TimeComplexityAnalysis:
 
-    def __init__(self):
+    def __init__(self, start_id: int, end_id: int, batch_count: int):
+
+        self.start_id = start_id
+        self.end_id = end_id
+        self.batch_count = batch_count
 
         self.SF = SortFunctions()
         self.C = Constants()
 
 
-    def time_complexity_analysis(self, start_id: int, end_id: int) -> None:
+    def time_complexity_analysis(self) -> None:
 
-        for i in tqdm(range(0, self.C.batch_count)):
+        for i in tqdm(range(0, self.batch_count)):
 
             print(f"Analyzing Time Complexity for Batch {i}:")
 
             # Create a list of file paths for the current batch
             files = {
                 "random": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="random") 
-                        for j in range(start_id, end_id)],
+                        for j in range(self.start_id, self.end_id)],
 
                 "ascending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="ascending") 
-                            for j in range(start_id, end_id)],
+                            for j in range(self.start_id, self.end_id)],
 
                 "descending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="descending") 
-                            for j in range(start_id, end_id)]
+                            for j in range(self.start_id, self.end_id)]
             }
 
-            # Create a list of all tasks
-            tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
+            print(files)
 
-            # Directly call the base_measure method for all tasks
-            for file_path, _ in tasks:
+            # # Create a list of all tasks
+            # tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
 
-                df = self.base_analysis(file_path)
-                df.to_csv(file_path, index=False)
+            # # Directly call the base_measure method for all tasks
+            # for file_path, _ in tasks:
+
+            #     df = self.base_analysis(file_path)
+            #     df.to_csv(file_path, index=False)
 
 
     def base_analysis(self, data_path: str) -> pd.DataFrame:

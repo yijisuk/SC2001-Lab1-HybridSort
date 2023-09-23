@@ -5,7 +5,7 @@ import pandas as pd
 from .constants import Constants
 
 
-def filter_key_data(start_id: int, end_id: int):
+def filter_key_data(start_id: int, end_id: int, batch_count: int):
 
     C = Constants()
 
@@ -19,7 +19,7 @@ def filter_key_data(start_id: int, end_id: int):
         data.to_csv(save_path, index=False)
 
 
-    for i in tqdm(range(0, C.batch_count)):
+    for i in tqdm(range(0, batch_count)):
 
         print(f"Filtering Key Comparison & Time Complexity for Batch {i}:")
         batch_data_path = C.TC_batch_data_path(i)
@@ -53,8 +53,8 @@ def filter_key_data(start_id: int, end_id: int):
 
         for key in ["random", "ascending", "descending"]:
 
-            file_paths = paths.files[key]
-            save_paths = paths.save_paths[key]
+            file_paths = paths["files"][key]
+            save_paths = paths["save_paths"][key]
 
             for file_path, save_path in zip(file_paths, save_paths):
                 process_file(file_path, save_path)

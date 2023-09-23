@@ -11,16 +11,21 @@ if __name__ == "__main__":
     IHF = InitHelperFunctions()
     start_zero_count, end_zero_count, batch_count, step_size_len = IHF.get_init_inputs()
 
-    print("Generating Data...")
+    # print("Generating Data...")
 
-    C = Constants()
+    # C = Constants()
 
-    MainGenerator().batch_generation(
-        batch_count=batch_count, 
-        minimum_val=1, maximum_val=10**6-1, step_size_len=step_size_len)
+    # main_generator = MainGenerator(
+    #     start_zero_count=start_zero_count, end_zero_count=end_zero_count)
 
-    start_id, end_id = C.min_id, C.max_id
+    # main_generator.batch_generation(
+    #     batch_count=batch_count, 
+    #     minimum_val=1, maximum_val=10**6-1, step_size_len=step_size_len)
 
-    TCA = TimeComplexityAnalysis()
-    TCA.time_complexity_analysis(start_id=start_id, end_id=end_id)
-    filter_key_data(start_id=start_id, end_id=end_id)
+    start_id, end_id = 1, end_zero_count - start_zero_count
+
+    TCA = TimeComplexityAnalysis(
+        start_id=start_id, end_id=end_id, batch_count=batch_count)
+    TCA.time_complexity_analysis()
+
+    # filter_key_data(start_id=start_id, end_id=end_id, batch_count=batch_count)

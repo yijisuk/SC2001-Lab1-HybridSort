@@ -11,10 +11,15 @@ class MainGenerator(DataBatchGenerator):
     Main Generator Class for creating multiple batches of data.
     """
 
-    def __init__(self):
+    def __init__(self, start_zero_count: int, end_zero_count: int):
 
-        super().__init__()
+        super().__init__(
+            start_zero_count=start_zero_count, 
+            end_zero_count=end_zero_count
+        )
+
         self.C = Constants()
+
 
     def batch_generation(self, batch_count: int,
                          minimum_val: int, maximum_val: int,
@@ -46,6 +51,7 @@ class MainGenerator(DataBatchGenerator):
             except Exception as e:
                 print(f"Error in batch {i}: {e}")
 
+
     def generate_input_data(self, batch_count: int,
                             minimum_val: int, maximum_val: int,
                             step_size_len: any) -> None:
@@ -71,7 +77,7 @@ class MainGenerator(DataBatchGenerator):
 
         # Base function for processing arrays of length from 10**i to 10**(i+1)
 
-        def process_type(i, sort_type: str, step_size: any = None) -> None:
+        def process_type(i, id_val: int, sort_type: str, step_size: any = None) -> None:
 
             # If step is not specified, set step to 10**i
             if step_size == None:
@@ -86,12 +92,15 @@ class MainGenerator(DataBatchGenerator):
 
             # Save the dataset to a csv file
             file_dir = self.C.ID_array_data_path(
-                batch_id=batch_count, data_id=i-2, order_type=sort_type)
+                batch_id=batch_count, data_id=id_val, order_type=sort_type)
             
             data.to_csv(file_dir, index=False)
 
         # Process random, ascending, and descending arrays for each length in between min_zero_count and max_zero_count
-        for i in tqdm(range(self.C.start_zero_count, self.C.end_zero_count), desc=f"Processing batch {batch_count}"):
+        id_val = 1
+        for i in tqdm(range(self.start_zero_count, self.end_zero_count), desc=f"Processing batch {batch_count}"):
 
             for type in ["random", "ascending", "descending"]:
-                process_type(i, type, step_size_len)
+                process_type(i, id_val, type, step_size_len)
+            
+            id_val += 1
