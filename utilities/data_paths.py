@@ -1,5 +1,4 @@
 import os
-from itertools import chain
 
 from .shared_constants import SharedConstants
 
@@ -45,19 +44,40 @@ class DataPaths:
     def generate_paths(self, batch_id: int, SC: SharedConstants,
                        order_type: str, paths_option: str) -> list:
 
-        if paths_option == "ID":
-            return_list = [[self.ID_array_data_path(batch_id=batch_id, zero_count=zc, 
-                                            data_id=j, order_type=order_type) 
-                    for j in range(SC.start_id, SC.end_id)] 
-                    for zc in range(SC.start_zero_count, SC.end_zero_count)]
-        
-        elif paths_option == "TC":
-            return_list = [[self.TC_array_data_path(batch_id=batch_id, zero_count=zc, 
-                                            data_id=j, order_type=order_type) 
-                    for j in range(SC.start_id, SC.end_id)] 
-                    for zc in range(SC.start_zero_count, SC.end_zero_count)]
+        return_list = self.aggregate_batch_data_paths(
+            batch_id=batch_id, SC=SC, 
+            order_type=order_type, paths_option=paths_option
+        )
             
-        return list(chain.from_iterable(return_list))
+        return return_list
+    
+
+    def aggregate_batch_data_paths(self, 
+                                   batch_id: int, SC: SharedConstants,
+                                   order_type: str, paths_option: str) -> list:
+
+        data_id = 1
+        return_list = []
+
+        if paths_option == "ID":
+            for zc in range(SC.start_zero_count, SC.end_zero_count):
+
+                return_list.append(self.ID_array_data_path(
+                    batch_id=batch_id, zero_count=zc, 
+                    data_id=data_id, order_type=order_type))
+                
+                data_id += 1
+
+        elif paths_option == "TC":
+            for zc in range(SC.start_zero_count, SC.end_zero_count):
+
+                return_list.append(self.TC_array_data_path(
+                    batch_id=batch_id, zero_count=zc, 
+                    data_id=data_id, order_type=order_type))
+                
+                data_id += 1
+
+        return return_list
 
 
     def base_file_name(self, data_id: int, zero_count: int, order_type: str) -> str:
