@@ -4,7 +4,7 @@ import pandas as pd
 from typing import Tuple
 
 from sort_functions.sort_functions import SortFunctions
-from utils.constants import Constants
+from utilities.constants import Constants
 
 
 class TimeComplexityAnalysis:
@@ -15,9 +15,7 @@ class TimeComplexityAnalysis:
         self.C = Constants()
 
 
-    def time_complexity_analysis(self):
-
-        max_range = self.C.min_id + 2
+    def time_complexity_analysis(self, start_id: int, end_id: int) -> None:
 
         for i in tqdm(range(0, self.C.batch_count)):
 
@@ -26,20 +24,20 @@ class TimeComplexityAnalysis:
             # Create a list of file paths for the current batch
             files = {
                 "random": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="random") 
-                        for j in range(self.C.min_id, max_range)],
+                        for j in range(start_id, end_id)],
 
                 "ascending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="ascending") 
-                            for j in range(self.C.min_id, max_range)],
+                            for j in range(start_id, end_id)],
 
                 "descending": [self.C.ID_array_data_path(batch_id=i, data_id=j, order_type="descending") 
-                            for j in range(self.C.min_id, max_range)]
+                            for j in range(start_id, end_id)]
             }
 
             # Create a list of all tasks
             tasks = [(file_path, key) for key in files.keys() for file_path in files[key]]
 
             # Directly call the base_measure method for all tasks
-            for (file_path, key) in tasks:
+            for file_path, _ in tasks:
 
                 df = self.base_analysis(file_path)
                 df.to_csv(file_path, index=False)

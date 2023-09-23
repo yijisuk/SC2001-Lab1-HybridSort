@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+from utilities.constants import Constants
+
 
 class DataBatchGenerator:
 
@@ -9,66 +11,65 @@ class DataBatchGenerator:
     """
 
     def __init__(self):
+
         self.data = []
+        self.C = Constants()
 
-
-    def base_generation(self, type: str, length: int,
-                        minimum: int, maximum: int) -> None:
-        
+    def base_generation(self, sort_type: str, array_len: int,
+                        minimum_val: int, maximum_val: int) -> None:
         """
         Generates a single array of given length and type, 
         with values between the given minimum and maximum.
         """
 
-        if type == "random":
+        if sort_type == "random":
             # If type is "random", generate an array of randomly ordered integers in between the given minimum and maximum
-            arr = np.random.randint(minimum, maximum + 1, size=length).tolist()
+            arr = np.random.randint(
+                minimum_val, maximum_val + 1, size=array_len).tolist()
 
         else:
             # For the cases when type is either "ascending" or "descending",
 
-            if length > 1:
+            if array_len > 1:
                 # First generate a random step size between 1 and the maximum possible step size
-                max_step = (maximum - minimum) / (length - 1)
+                max_step = (maximum_val - minimum_val) / (array_len - 1)
                 step = np.random.uniform(1, max_step)
             else:
                 step = 0
 
-            if type == "ascending":
+            if sort_type == "ascending":
                 # If type is "ascending", generate an array of ascending integers in between the given minimum and maximum
                 start_ascending = np.random.uniform(
-                    minimum, maximum - step * (length - 1))
-                
-                arr = (start_ascending + np.arange(length)
-                       * step).astype(int).tolist()
-                
-                if arr[-1] > maximum:
-                    arr[-1] = maximum
+                    minimum_val, maximum_val - step * (array_len - 1))
 
-            elif type == "descending":
+                arr = (start_ascending + np.arange(array_len)
+                       * step).astype(int).tolist()
+
+                if arr[-1] > maximum_val:
+                    arr[-1] = maximum_val
+
+            elif sort_type == "descending":
                 # If type is "descending", generate an array of descending integers in between the given minimum and maximum
                 start_descending = np.random.uniform(
-                    minimum + step * (length - 1), maximum)
-                
-                arr = (start_descending - np.arange(length)
+                    minimum_val + step * (array_len - 1), maximum_val)
+
+                arr = (start_descending - np.arange(array_len)
                        * step).astype(int).tolist()
-                
-                if arr[-1] < minimum:
-                    arr[-1] = minimum
+
+                if arr[-1] < minimum_val:
+                    arr[-1] = minimum_val
 
         # Append the generated array to self.data.
         append_row = {
-            "length": length,
+            "length": array_len,
             "array": arr
         }
 
         self.data.append(append_row)
 
-
-    def generate(self, type: str,
-                 start: int, end: int, step: int,
-                 minimum: int, maximum: int) -> pd.DataFrame:
-        
+    def generate(self, sort_type: str,
+                 start_len: int, end_len: int, step_size_len: int,
+                 minimum_val: int, maximum_val: int) -> pd.DataFrame:
         """
         Generates input data for a single batch.
         Manages the creation of a dataframe holding arrays of different lengths,
@@ -86,14 +87,17 @@ class DataBatchGenerator:
             pd.DataFrame: Dataframe holding arrays of different lengths.
         """
 
+        if end_len >= 10**self.C.end_zero_count:
+            end_len += step_size_len
+
         # Loop through the lengths from start to end, with step size step
-        for length in range(start, end, step):
+        for length in range(start_len, end_len, step_size_len):
 
             # Call the base_generation function to generate a single array,
             # The generated array will be appended to self.data.
             self.base_generation(
-                type=type, length=length,
-                minimum=minimum, maximum=maximum
+                sort_type=sort_type, array_len=length,
+                minimum_val=minimum_val, maximum_val=maximum_val
             )
 
         # Convert self.data to a dataframe and return it.

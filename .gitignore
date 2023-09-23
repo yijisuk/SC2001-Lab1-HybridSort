@@ -5,3 +5,4 @@ __pycache__/
 __pycache__/
 *.pyc
 data_storage/
+step_size_10.ipynb
