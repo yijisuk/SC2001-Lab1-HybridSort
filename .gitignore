@@ -4,4 +4,4 @@ __pycache__/
 .DS_Store
 __pycache__/
 *.pyc
-data_storage/input_data/
+data_storage/
