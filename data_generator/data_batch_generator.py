@@ -10,9 +10,13 @@ class DataBatchGenerator:
     Base Generator Class for creating a single batch of data
     """
 
-    def __init__(self):
+    def __init__(self, start_zero_count: int, end_zero_count: int):
 
         self.data = []
+
+        self.start_zero_count = start_zero_count
+        self.end_zero_count = end_zero_count
+
         self.C = Constants()
 
     def base_generation(self, sort_type: str, array_len: int,
@@ -87,7 +91,7 @@ class DataBatchGenerator:
             pd.DataFrame: Dataframe holding arrays of different lengths.
         """
 
-        if end_len >= 10**self.C.end_zero_count:
+        if end_len >= 10**self.end_zero_count:
             end_len += step_size_len
 
         # Loop through the lengths from start to end, with step size step
