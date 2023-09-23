@@ -1,6 +1,9 @@
 # SC2001-SCMC-Team8
 **Algorithm Design & Analysis**
 
+> [!NOTE]
+> The README is currently outdated, will be updated soon.
+
 ## Important File Descriptions
 ```main.py```: Currently holds the demonstration of the hybrid sort algorithm. S value is temporarily set to 3.
 
