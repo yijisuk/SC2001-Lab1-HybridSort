@@ -22,9 +22,9 @@ if __name__ == "__main__":
 
     print("Generating Data...")
 
-    main_generator = MainGenerator(SC=SC)
-    main_generator.batch_generation(
-        minimum_val=1, maximum_val=10**6-1)
+    # main_generator = MainGenerator(SC=SC)
+    # main_generator.batch_generation(
+    #     minimum_val=1, maximum_val=10**6-1)
     
 
     TCA = TimeComplexityAnalysis(SC=SC)
