@@ -6,6 +6,7 @@ from typing import List
 
 from .sort_functions_python.insertion_sort import insertion_sort
 from .sort_functions_python.merge_sort import merge_sort
+from .sort_functions_python.hybrid_sort import hybrid_sort
 
 
 class SortFunctions:
@@ -24,6 +25,17 @@ class SortFunctions:
         elif option == "merge":
             sorted_data, key_comparisons = merge_sort(array)
 
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+        return [sorted_data, key_comparisons, elapsed_time]
+    
+
+    def hybrid_sort(self, array: List[int], threshold: int) -> list:
+
+        start_time = time.time()
+
+        sorted_data, key_comparisons = hybrid_sort(array, threshold)
 
         end_time = time.time()
         elapsed_time = end_time - start_time

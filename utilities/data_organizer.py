@@ -6,7 +6,7 @@ from typing import Union, Tuple
 from utilities.data_paths import DataPaths
 
 
-class VisHelperFunctions:
+class DataOrganizer:
 
     def __init__(self, batch_count: int):
 
