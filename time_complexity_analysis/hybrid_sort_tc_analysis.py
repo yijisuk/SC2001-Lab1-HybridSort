@@ -2,14 +2,14 @@ import pandas as pd
 import ast
 from typing import Tuple
 
-from sort_functions.sort_functions import SortFunctions
+from sort_functions.sort_functions import PythonSortFunctions
 
 
 class HybridSortTCA:
 
     def __init__(self, S: int):
 
-        self.SF = SortFunctions()
+        self.SF = PythonSortFunctions()
         self.S = S
 
 

@@ -1,9 +1,10 @@
-from sort_functions.sort_functions import SortFunctions
+from sort_functions.sort_functions import PythonSortFunctions, CSortFunctions
 
 
 if __name__ == "__main__":
 
-    SF = SortFunctions()
+    # SF = PythonSortFunctions()
+    SF = CSortFunctions()
 
     test_arr = [5, 2, 4, 6, 1, 3]
 

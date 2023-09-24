@@ -3,7 +3,7 @@ from tqdm import tqdm
 import pandas as pd
 from typing import Tuple
 
-from sort_functions.sort_functions import SortFunctions
+from sort_functions.sort_functions import PythonSortFunctions
 from utilities.shared_constants import SharedConstants
 from utilities.data_paths import DataPaths
 
@@ -13,7 +13,7 @@ class TimeComplexityAnalysis:
     def __init__(self, SC: SharedConstants):
 
         self.SC = SC
-        self.SF = SortFunctions()
+        self.SF = PythonSortFunctions()
         self.DP = DataPaths()
 
 
@@ -47,6 +47,9 @@ class TimeComplexityAnalysis:
     def base_analysis(self, data_path: str) -> pd.DataFrame:
 
         data = pd.read_csv(data_path)
+
+        # temp line
+        data = data[data["length"] <= 2000]
 
         results = data.apply(self.process_row, axis=1, result_type='expand')
 
