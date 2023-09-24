@@ -4,5 +4,5 @@ __pycache__/
 .DS_Store
 __pycache__/
 *.pyc
-data_storage/
-step_size_10.ipynb
+data_storage/10*
+data_storage/hybrid_sort_analysis
