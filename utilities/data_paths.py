@@ -9,9 +9,9 @@ class DataPaths:
         pass
 
 
-    def ID_batch_data_path(self, batch: int, base_path: str = "data_storage") -> str:
+    def ID_batch_data_path(self, batch_id: int, base_path: str = "data_storage") -> str:
 
-        return os.path.join(base_path, "input_data", f"batch_{batch}")
+        return os.path.join(base_path, "input_data", f"batch_{batch_id}")
 
 
     def ID_array_data_path(self, batch_id: int, zero_count: int,
@@ -25,9 +25,9 @@ class DataPaths:
         return file_path
 
 
-    def TC_batch_data_path(self, batch: int, base_path: str = "data_storage") -> str:
+    def TC_batch_data_path(self, batch_id: int, base_path: str = "data_storage") -> str:
 
-        return os.path.join(base_path, "time_complexity", f"batch_{batch}")
+        return os.path.join(base_path, "time_complexity", f"batch_{batch_id}")
 
 
     def TC_array_data_path(self, batch_id: int, zero_count: int,
