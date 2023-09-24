@@ -1,4 +1,4 @@
-def insertion_sort(array):
+def insertion_sort(array: list) -> tuple:
 
     key_comparisons = 0
 
@@ -13,4 +13,4 @@ def insertion_sort(array):
 
         array[j + 1] = key
 
-    return array, key_comparisons
+    return (array, key_comparisons)

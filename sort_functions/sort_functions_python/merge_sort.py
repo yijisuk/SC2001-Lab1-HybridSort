@@ -1,12 +1,12 @@
-def merge_sort(arr):
+def merge_sort(array: list) -> tuple:
 
-    if len(arr) <= 1:
-        return arr, 0
+    if len(array) <= 1:
+        return array, 0
 
     # Split the array into two halves
-    middle = len(arr) // 2
-    left_half = arr[:middle]
-    right_half = arr[middle:]
+    middle = len(array) // 2
+    left_half = array[:middle]
+    right_half = array[middle:]
 
     # Recursively sort both halves
     left_sorted, left_comparisons = merge_sort(left_half)
@@ -18,10 +18,10 @@ def merge_sort(arr):
     # Return merged array and total comparisons
     total_comparisons = left_comparisons + right_comparisons + merge_comparisons
     
-    return merged, total_comparisons
+    return (merged, total_comparisons)
 
 
-def merge(left, right):
+def merge(left: list, right: list) -> tuple:
 
     merged = []
     left_index, right_index = 0, 0
@@ -49,4 +49,4 @@ def merge(left, right):
         merged.append(right[right_index])
         right_index += 1
 
-    return merged, comparisons
+    return (merged, comparisons)
