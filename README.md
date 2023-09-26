@@ -1,28 +1,30 @@
 # SC2001-SCMC-Team8
 **Algorithm Design & Analysis**
 
-> [!NOTE]
-> The README is currently outdated, will be updated soon.
-
 ## Important File Descriptions
-```main.py```: Currently holds the demonstration of the hybrid sort algorithm. S value is temporarily set to 3.
+```main.py```: Holds the demonstration code of the insertion, merge, and hybrid sort algorithms. S value is temporarily set to 3. Adjust it accordingly.
 
-```data.py```: Python file that generates multiple batches of input data. The generated data are stored at ```./data_storage/input_data```, yet it's not on this repository due to file size limitation.
+```data.py```: Python file that generates multiple batches of input data, and runs through time complexity analysis. The generated data are stored at ```./data_storage/input_data```, yet the folder in this repository is empty due to file size limitations.
 
-```./time_complexity_analysis/time_complexity_analysis.py```: Measures the time taken for sorting the generated input dataset with varying lengths using insertion sort and merge sort. Later the retrieved values will be used to find S value of the hybrid sort algorithm.
+```./time_complexity_analysis/time_complexity_analysis.py```: Measures the time taken for sorting the generated input dataset with varying lengths using insertion sort and merge sort.
 
 ```./sort_functions/sort_functions.py```: Connects the C shared object file with Python, making the C sorting functions executable through Python.
 
-```./utils/filter_key_data.py```: Organizes the array length, key comparisons count, and sorting time to a new dataframe. The organized data are stored at ```./data_storage/time_complexity```.
+```./utilities/filter_key_data.py```: Organizes the array length, key comparisons count, and sorting time to a new dataframe set. The organized data are stored at ```./data_storage/time_complexity```.
 
-```input_data_vis.ipynb```: Jupyter Notebook file for visualizing the generated input data
+```s1_observation.ipynb```: Step 1️⃣ - Initial Observation; Jupyter Notebook showing the process of searching the suitable range of S values for testing.
+
+```s2_finding_s.ipynb```: Step 2️⃣ - Finding S; the process of finding the optimal S values through comparisons of sort time and key comparison counts between Hybrid Sort and Insertion & Merge Sorts.
+
+```s3_mergesort_comparison.ipynb```: Step 3️⃣ - Hybrid vs Merge Sort Comparison; comparison on the sort time and key comparison counts between Hybrid Sort and Merge Sort, thus resulting in a final value for the Optimal S.
 
 ## Folder Descriptions
-```data_generator```: Holds all Python files relevant to input data generation.
+```data_generator/```: Holds all Python files relevant to input data generation.
 
-```sort_functions```: Holds all Python & C files relevant to sorting functions
-- ```sort_functions_c```: Sorting functions written in C: insertion sort, merge sort, & hybrid sort
+```sort_functions/```: Holds all C & Python files relevant to sorting functions: insertion sort, merge sort, & hybrid sort
+- ```sort_functions_c/```: Sorting functions written in C
+- ```sort_functions_python/```: Sorting functions written in Python
 
-```time_measurer```: Holds all Python files relevant to sorting time complexity analysis.
+```time_complexity_analysis/```: Holds all Python functions relevant to time complexity analysis of individual sorting functions.
 
-```utils```: Holds all utility-related Python files.
+```utilities/```: Holds all Python functions used for utility purposes.
