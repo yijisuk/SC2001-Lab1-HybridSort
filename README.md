@@ -1,5 +1,5 @@
 # SC2001-SCMC-Team8
-**Algorithm Design & Analysis**
+**Algorithm Design & Analysis Lab 1 - Integration of Merge Sort & Insertion Sort**
 
 ## Important File Descriptions
 ```main.py```: Holds the demonstration code of the insertion, merge, and hybrid sort algorithms. S value is temporarily set to 3. Adjust it accordingly.
