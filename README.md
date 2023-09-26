@@ -28,3 +28,10 @@
 ```time_complexity_analysis/```: Holds all Python functions relevant to time complexity analysis of individual sorting functions.
 
 ```utilities/```: Holds all Python functions used for utility purposes.
+
+## Time Complexity Analysis
+The Hybrid Sort algorithm integrates both Merge and Insertion Sort. The idea is to set a small integer ```S``` as a threshold for the size of subarrays. Once the size of a subarray in a recursive call of Mergesort is less than or equal to S, the algorithm will switch to Insertion Sort, which is efficient for small-sized input.
+
+1. Time Complexity for splitting an array of initial length $n/S\$ into half until the length $S\$ is reached. & Merging the split, sorted arrays back = $O(nlog_2(n/S))\$
+2. Time Complexity for sorting $n/S\$ subarrays of length $S\$ = $O(ns)\$
+3. Total Time Complexity of Hybrid Sort = $O(nlog_2(n/S) + nS)\$
