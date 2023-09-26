@@ -1,12 +1,13 @@
+import random
 from sort_functions.sort_functions import PythonSortFunctions, CSortFunctions
 
 
 if __name__ == "__main__":
 
-    # SF = PythonSortFunctions()
-    SF = CSortFunctions()
+    SF = PythonSortFunctions()
+    # SF = CSortFunctions()
 
-    test_arr = [5, 2, 4, 6, 1, 3]
+    test_arr = [random.randint(0, 100) for _ in range(15)]
 
     insertion_sort, is_key_comparison, is_runtime = SF.sort(test_arr, "insertion")
     merge_sort, ms_key_comparison, ms_runtime = SF.sort(test_arr, "merge")
